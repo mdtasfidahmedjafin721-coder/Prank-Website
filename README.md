@@ -1,75 +1,166 @@
-<div align="center">
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Alert 😈</title>
 
-<img src="https://files.catbox.moe/nsv908.png" alt="Gift Prank" width="260"/>
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-# 🎁 Gift Prank Website
+  body {
+    margin: 0;
+    background: #080808;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+  }
 
-A fun, loud and surprising **prank website** to trick your friends with a heavy noise + fake system crash effect.
+  .box {
+    width: 85%;
+    padding: 25px;
+    border: 2px solid #ff3333;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #ff3333;
+    animation: shake 0.08s infinite;
+  }
 
-<br>
-<a href="https://gift-for-youu.vercel.app/" target="_blank">
-  <img src="https://img.shields.io/badge/Live Demo-Click Here-blue?style=for-the-badge" />
-</a>
+  .icon {
+    font-size: 55px;
+  }
 
+  h1 {
+    color: #ff4444;
+    animation: glitch 0.18s infinite;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  button {
+    background: #ff3333;
+    color: white;
+    border: 0;
+    padding: 13px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #ff0000;
+  }
+
+  .glitch {
+    animation: glitch 0.1s infinite;
+  }
+
+  @keyframes shake {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(3px, -2px) rotate(-1deg); }
+    50%  { transform: translate(-3px, 2px) rotate(1deg); }
+    75%  { transform: translate(2px, 3px) rotate(0deg); }
+    100% { transform: translate(-2px, -3px) rotate(-1deg); }
+  }
+
+  @keyframes glitch {
+    0% { transform: translate(0); text-shadow: 2px 0 red, -2px 0 cyan; }
+    25% { transform: translate(-3px, 2px); }
+    50% { transform: translate(3px, -2px); text-shadow: -2px 0 red, 2px 0 cyan; }
+    75% { transform: translate(2px, 1px); }
+    100% { transform: translate(0); }
+  }
+
+  .flash {
+    animation: flash 0.12s infinite;
+  }
+
+  @keyframes flash {
+    50% {
+      background: #300000;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="box" id="box">
+  <div class="icon">⚠️</div>
+
+  <h1>SECURITY ALERT</h1>
+
+  <p>অস্বাভাবিক কার্যকলাপ শনাক্ত হয়েছে!</p>
+
+  <p id="status">Checking device...</p>
+
+  <button onclick="reveal()">Check Result</button>
 </div>
 
----
+<script>
+setTimeout(() => {
+  document.getElementById("status").innerText =
+    "Device scan completed...";
+}, 2500);
 
-## ✨ Description
-This website is made for **fun pranks**.  
-When someone opens the link, it instantly plays a **very loud noise** and shows a **system crash style screen**, causing a funny reaction.
+function alarm() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AudioContext();
 
----
+  let count = 0;
 
-## ⭐ Features
-- 🔊 Heavy noise prank (unexpected loud audio)
-- 💻 Fake system crash animation
-- 🎯 One link share → instant reaction
-- 🟢 Super simple hosting & deployment
-- ☠️ Crashes Low end devices 
+  const interval = setInterval(() => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
 
----
+    osc.type = "square";
+    osc.frequency.value = count % 2 === 0 ? 900 : 500;
 
-## 🚀 Deployment (on Vercel)
+    gain.gain.value = 0.12;
 
-1. **Fork** this repository.
-2. Go to **https://vercel.com/**
-3. Create new project → select this forked repo.
-4. Click **Deploy.**
+    osc.connect(gain);
+    gain.connect(ctx.destination);
 
-Done. Your prank link is live.
+    osc.start();
+    osc.stop(ctx.currentTime + 0.16);
 
----
+    count++;
 
-## ⚠️ Warning & Safety
-This prank is **very loud.**
+    if (count >= 12) {
+      clearInterval(interval);
+      setTimeout(() => ctx.close(), 300);
+    }
+  }, 220);
+}
 
-Do NOT use on:
-- People with **heart issues**
-- People with **anxiety / panic**
-- People who dislike loud surprises
+function reveal() {
+  alarm();
 
-This is meant for **light, friendly fun only.**  
-Prank responsibly 😄
+  document.body.classList.add("flash");
 
----
+  document.getElementById("box").innerHTML = `
+    <div class="icon glitch">👿</div>
 
-## 🎖️ Credits
+    <h1 class="glitch">PRANK!</h1>
 
-| Name | Role | Description |
-|------|------|-------------|
-| **Murali** | Main Code Editor & Host | Improved UI, upgraded code & prepared deployment |
-| **Samarth** | Original Developer | Created the core prank logic |
+    <p class="glitch">Your phone has been hacked. 👀</p>
 
----
+    <p class="glitch">
+      If you want to survive, treat Jafin nicely! 😈
+    </p>
 
-## 💛 Thank You
-Thank you for using this prank.  
-Have fun & make your friends scream (just a little) 😈  
-**Happy Pranking! 🎁**
+    <p>😈 Just kidding! It's only a harmless prank.</p>
+  `;
+}
+</script>
 
-
-
-## License
-This project is licensed under the MIT License.
-Unauthorized removal of copyright or credit is not allowed.
+</body>
+</html>
